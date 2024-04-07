@@ -1,6 +1,6 @@
 ---
 title: "Mid-term project instructions"
-author: "FULL NAME STUDENT 1 & FULL NAME STUDENT 2"
+author: "Jazib Ali Irfan & Ujjwal Sigdel"
 format:
   html:
     code-fold: false
@@ -53,6 +53,57 @@ Make sure to run a model that reflects your study design. Even if your study des
 Before each chunk, describe the steps being performed in that chunk. For example, "Here I will load the data".  
 
 If a chunk produces output, like printing a data frame, statistical summary, a plot, ANOVA table, etc., make sure to write text interpreting what you see and how you can/will use that information to move forward to the next steps in the workflow.  
+
+```{r setup}
+# Loading packages
+#install.packages("metan")
+library(tidyverse) # for data wrangling and plotting
+library(janitor) #for clean names
+library(car) # for Anova function
+library(lme4)
+library(broom) # for model residuals extraction
+library(emmeans) # for model mean extraction
+library(multcomp) # for pairwise comparison letter display
+library(multcompView)
+library(metan)
+```
+
+```{r data import}
+rcbd_gs <- read_csv("../Data/IHF_TIFT_Combined_2022-23.csv")
+rcbd_gs
+```
+
+# b) Exploratory data analysis (EDA)
+```{r summary}
+summary(rcbd_gs)
+```
+
+```{r glimpse}
+glimpse(rcbd_gs)
+```
+
+# c) Wrangling
+```{r rcbd_gsw}
+rcbd_gsw <- rcbd_gs %>%
+  clean_names() %>% 
+  mutate(year = as.factor(year),
+         location = as.factor(location),
+         rep = as.factor(rep),
+         hsf = as.factor(hsf),
+         ecotype = as.factor(ecotype)
+         ) 
+
+rcbd_gsw
+```
+
+
+
+
+
+
+
+
+
 
 # Team work in GitHub  
 Whether you are working with your future-self or as duos, make sure to stage, commit, and push after finishing each of the sub-sections above. When committing, write commit messages that are short and descriptive (e.g., finished wrangling).  
