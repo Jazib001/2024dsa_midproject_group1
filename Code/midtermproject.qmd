@@ -84,6 +84,7 @@ glimpse(rcbd_gs)
 
 # c) Wrangling
 ```{r rcbd_gsw}
+# Model 1
 rcbd_gsw <- rcbd_gs %>%
   clean_names() %>% 
   mutate(year = as.factor(year),
@@ -92,16 +93,109 @@ rcbd_gsw <- rcbd_gs %>%
          hsf = as.factor(hsf),
          ecotype = as.factor(ecotype)
          ) 
-
 rcbd_gsw
+
+## Model 2
+rcbd_gsw1 <- rcbd_gs %>% 
+clean_names() %>% 
+  mutate(e = paste0(year, "+", location)) %>% 
+  mutate(g = paste0(hsf)) %>% 
+  mutate(e = as.factor(e),
+         rep = as.factor(rep),
+         g = as.factor(g),
+         ecotype = as.factor(ecotype)) %>% 
+  arrange(yield) %>% 
+  group_by(yield)
+
+rcbd_gsw1
+
+```
+```{r grouping}
+rcbd_gsw %>%
+  group_by(year, location, rep, hsf, yield) %>%
+  tally()
 ```
 
+```{r rcbd_gsw}
+summary(rcbd_gsw)
+summary(rcbd_gsw1)
+```
 
+# d) EDA plots
 
+```{r Year boxplot}
+#| message: false
+#| warning: false
 
+ggplot(rcbd_gsw1, aes(x = e, 
+                    y = yield,
+                    color = e)) +
+  geom_boxplot()# +
+  geom_jitter() +
+  theme(legend.position = "none")
 
+```
 
+```{r Ecotype boxplot}
+#| message: false
+#| warning: false
 
+ggplot(rcbd_gsw1, aes(x = ecotype, 
+                    y = yield,
+                    color = ecotype)) +
+  geom_boxplot() #+
+  geom_jitter() +
+  theme(legend.position = "none")
+```
+
+```{r Rep boxplot}
+#| message: false
+#| warning: false
+
+ggplot(rcbd_gsw, aes(x = rep, 
+                    y = yield,
+                    color = rep)) +
+  geom_boxplot() #+
+  geom_jitter() +
+  theme(legend.position = "none")
+```
+
+```{r Location boxplot}
+#| message: false
+#| warning: false
+
+ggplot(rcbd_gsw, aes(x = location, 
+                    y = yield,
+                    color = location)) +
+  geom_boxplot() #+
+  geom_jitter() +
+  theme(legend.position = "none")
+```
+
+```{r HSF boxplot}
+#| message: false
+#| warning: false
+
+ggplot(rcbd_gsw1, aes(x = g, 
+                    y = yield,
+                    color = g)) +
+  geom_boxplot() #+
+  geom_jitter() +
+  theme(legend.position = "none")
+```
+
+```{r Location/Year/Rep boxplot}
+#| message: false
+#| warning: false
+
+ggplot(rcbd_gsw1, aes(x = e, 
+                    y = yield,
+                    color = e)) +
+  geom_boxplot() #+
+  geom_jitter() +
+  facet_grid(.~ecotype) +
+  theme(legend.position = "none")
+```
 
 
 
