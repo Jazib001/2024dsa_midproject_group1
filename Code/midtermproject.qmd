@@ -130,9 +130,11 @@ summary(rcbd_gsw1)
 ggplot(rcbd_gsw1, aes(x = e, 
                     y = yield,
                     color = e)) +
-  geom_boxplot()# +
+  geom_boxplot() +
   geom_jitter() +
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  labs(x = "Ecotype",
+       y = "Yield")
 
 ```
 
@@ -143,9 +145,11 @@ ggplot(rcbd_gsw1, aes(x = e,
 ggplot(rcbd_gsw1, aes(x = ecotype, 
                     y = yield,
                     color = ecotype)) +
-  geom_boxplot() #+
+  geom_boxplot() +
   geom_jitter() +
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  labs(x = "Ecotype",
+       y = "Yield")
 ```
 
 ```{r Rep boxplot}
@@ -155,7 +159,7 @@ ggplot(rcbd_gsw1, aes(x = ecotype,
 ggplot(rcbd_gsw, aes(x = rep, 
                     y = yield,
                     color = rep)) +
-  geom_boxplot() #+
+  geom_boxplot() +
   geom_jitter() +
   theme(legend.position = "none")
 ```
@@ -167,7 +171,7 @@ ggplot(rcbd_gsw, aes(x = rep,
 ggplot(rcbd_gsw, aes(x = location, 
                     y = yield,
                     color = location)) +
-  geom_boxplot() #+
+  geom_boxplot() +
   geom_jitter() +
   theme(legend.position = "none")
 ```
@@ -179,7 +183,7 @@ ggplot(rcbd_gsw, aes(x = location,
 ggplot(rcbd_gsw1, aes(x = g, 
                     y = yield,
                     color = g)) +
-  geom_boxplot() #+
+  geom_boxplot() +
   geom_jitter() +
   theme(legend.position = "none")
 ```
@@ -191,9 +195,11 @@ ggplot(rcbd_gsw1, aes(x = g,
 ggplot(rcbd_gsw1, aes(x = e, 
                     y = yield,
                     color = e)) +
-  geom_boxplot() #+
+  geom_boxplot() +
   geom_jitter() +
   facet_grid(.~ecotype) +
+  labs(x = "Ecotype",
+       y = "Yield")+
   theme(legend.position = "none")
 ```
 
@@ -222,7 +228,6 @@ Once you have developed all the code and answers, make sure to Render this quart
   - **DO NOT** delete the file's heading levels (# and ##). They set up the proper heading 1 and 2 levels, and I use them to guide my grading.  
   
   - If a given chunk is also outputting warnings or messages, inhibit this behavior by changing the chunk options `message` and `warning` to `FALSE`.  
-  
   - If, after rendered, 2 lines of text are connected and you wish to "break line" between them, add 2 extra spaces after the first one.  
 
 After rendering, an .html file will be created on your `code` folder.  
