@@ -208,6 +208,28 @@ ggplot(rcbd_gsw1, aes(x = e,
 ```
 The distribution of yield for four different environments look similar for the three ecotypes, where Tifton in 2023 had the higher yield followed by Athens in 2023. 
 
+# e) Statistical model
+```{r model 1}
+#changing to sum-to-zero contrast
+options(contrasts = c("contr.sum", "contr.poly"))
+
+# model fitting 1 - fit a mixed-effects model with interaction
+library(lme4)
+
+mixed_model1 <- lmer(yield ~ year+
+                       location+
+                       rep +
+                       year*location +
+                       year*rep+
+                       year*location*rep+
+                       (1|hsf),
+                     data = rcbd_gsw
+                     )
+mixed_model1
+summary(mixed_model1)
+```
+
+
 
 # Team work in GitHub  
 Whether you are working with your future-self or as duos, make sure to stage, commit, and push after finishing each of the sub-sections above. When committing, write commit messages that are short and descriptive (e.g., finished wrangling).  
