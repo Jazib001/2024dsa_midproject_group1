@@ -133,10 +133,11 @@ ggplot(rcbd_gsw1, aes(x = e,
   geom_boxplot() +
   geom_jitter() +
   theme(legend.position = "none")+
-  labs(x = "Ecotype",
+  labs(x = "Environment",
        y = "Yield")
 
 ```
+- The boxplot shows that highest yield was observed for Tifton followed by Athens in 2023. 
 
 ```{r Ecotype boxplot}
 #| message: false
@@ -146,11 +147,12 @@ ggplot(rcbd_gsw1, aes(x = ecotype,
                     y = yield,
                     color = ecotype)) +
   geom_boxplot() +
-  geom_jitter() +
+  #geom_jitter() +
   theme(legend.position = "none")+
   labs(x = "Ecotype",
        y = "Yield")
 ```
+The distribution of yield for two different ecotype and the unknown ecotype looks similar. Most of the samples belonged to lowland ecotype. 
 
 ```{r Rep boxplot}
 #| message: false
@@ -163,6 +165,7 @@ ggplot(rcbd_gsw, aes(x = rep,
   geom_jitter() +
   theme(legend.position = "none")
 ```
+The distribution of yield for both of the replication looks similar. 
 
 ```{r Location boxplot}
 #| message: false
@@ -175,6 +178,7 @@ ggplot(rcbd_gsw, aes(x = location,
   geom_jitter() +
   theme(legend.position = "none")
 ```
+On average, the yield of Tifton is higher than the Athens, regardless of the year. 
 
 ```{r HSF boxplot}
 #| message: false
@@ -184,7 +188,7 @@ ggplot(rcbd_gsw1, aes(x = g,
                     y = yield,
                     color = g)) +
   geom_boxplot() +
-  geom_jitter() +
+  #geom_jitter() +
   theme(legend.position = "none")
 ```
 
@@ -196,13 +200,13 @@ ggplot(rcbd_gsw1, aes(x = e,
                     y = yield,
                     color = e)) +
   geom_boxplot() +
-  geom_jitter() +
+  #geom_jitter() +
   facet_grid(.~ecotype) +
-  labs(x = "Ecotype",
+  labs(x = "Environment",
        y = "Yield")+
   theme(legend.position = "none")
 ```
-
+The distribution of yield for four different environments look similar for the three ecotypes, where Tifton in 2023 had the higher yield followed by Athens in 2023. 
 
 
 # Team work in GitHub  
