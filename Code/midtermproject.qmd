@@ -14,6 +14,8 @@ format:
 
 Paste here the URL of the GitHub project (after going through the instruction steps)
 
+https://github.com/Jazib001/2024dsa_midproject_group1.git
+
 # Instructions  
 This file contains both the **instructions** for the mid-term project and placeholders for your code. You are required to use this file to produce code, output, and answers to the questions below.  
 
@@ -32,15 +34,35 @@ To get you setup, you will need to:
 # Introduction  
 Describe here the introduction of your problem. Consider this as a shortened version of your paper, where you will briefly discuss in 3-4 paragraphs what is the issue/gap in literature, and how the data you collected will help answer this gap.  
 
+Answer:
+
+Switchgrass is a C3 perennial forage known for its high adaptation to marginal lands, requires less/no inputs and yields more biomass depending upon ecotype and adaptation. The data used in this analyses was generated to provide a strategy for the selection of high-yielding individual with the end-goal of variety development and release, using genetics and omics approaches. As a well-known bioenergy crop with the potential of producing bioethanol. 
+
+It has been the focus of the United States Department of Energy (US-DoE) to utilize forage and tree species growing on marginal lands to be used for bioethanol production to help fight global warming by cutting off excessive atmoshpheric carbon released in the environment using renewable sources of energy like exotic trees and forages where switchgrass is the best choice since past decades . 
+
+The study involves the multi-location phenotypic evaluation of half-sib families (HSF) of bioenergy crop switchgrass to select genotypes with higher biomass yield. Genotyping-by-sequencing (GBS) will enable endogenous genome marker evaluation to generate single nucleotide polymorphism (SNP) maps to select the best genotypes based on phenotypic evaluation of progeny.   
+
 # Hypothesis and objectives  
 Describe here your hypothesis, followed by your objectives. Make sure your hypothesis are testable and bold, and objectives are clear.  
+
+Answer: 
+
+The main objective of the study was to analyze progeny biomass yield over several years, out of which the current data has 2 years of yield recordings and further analysis will be based on analyzing the data for yield variations across years, locations and replications to look for the effect of these factors on the overall yield. Our objective is to record yield of all the progeny population and our hypothsis is based on the yield variation across years and location in Southeastern state of the USA. 
 
 # Material and Methods  
 Describe here your overall material and methods as it pertains to the analysis you will conduct, including study description, site/setup description, what equipment was used, etc. just like you would in a paper. Make sure to clearly explain what was measured and how.
 
+Parental population (polycrosses):
+The progeny used in the data analysis was obtained from the parental population selected from the fields in Tifton and then grown and outcrossed in Athens. The selection of polycross parents was based on drought tolerance, adaptation to marginal lands with less/no fertilizers and overall dry biomass yield analysis by analyzing the individuals through genome-wide association studies (GWAS) utilizing GBS approach and analyzing SNPs.The corresponding quantitative trait loci (QTL) were used to identify genome regions contributing to the traits of interest (drought tolerance, adaptation and biomass yield). From that GWAS panel 25 early flowering and 25 late flowering individuals were selected, grown in two blocks with 4 replicates in each block in Athens using randomized complete block design (RCBD) by designating the early flowering block as A group (25*4 = 100) and late flowering block as B group (25*4 = 100) and they were allowed to open pollinate. Four seeds were collected from each parent plant and used to develop progeny population.
+
+Progeny Population: 
+The data used for this assignment represents yield variation across the progeny populaton from the above-mentioned polycrosses of a mix of three switchgrass ecotypes collected over the years that are less, moderately and highly adaptable to the Southeastern States of the United States (US). The progeny population comprises of 3200 individuals distributed at two different locations of the Georgia state, Athens and Tifton in a way that each location has half (1600) of the progeny population (equal distribution). 
+
+
 ## Study design  
 Clearly describe your study design here, including treatment design (which factors and levels, the hierarchy among them, etc.), and your experimental design (number of reps/blocks, how was randomization performed, etc.), as we talked about in class.  
 
+The experimental design used for progeny HSFs was RCBD. As mentioned above, from both polycross parent groups A and B, 4 seeds from each parent were collected that made a total of 200*4 = 800 progeny seeds. Progeny seeds were grown in greenhouse and at the seedling stage after 2 months, seedlings were split into 3 clones (800*4 = 3200 clones). Half of the clones were planted at Gibbs Farm, Tifton, Georgia (1600) and half were planted at Iron Horse Farm, Athens, Georgia (1600). The plants on both locations were planted in two replicates, where replication 1 had the progeny rows in the sequenced from (ascending order; 1-800 in the rows of 40 plants). In replication 2, the progeny HSFs were randomized. There was no specific treatment or land heterogenity. To allow maximum recombination and cross pollination among families, the best design reported previosuly was RCBD.      
 
 ## Statistical analysis  
 Describe here your statistical analysis, including what type of ANOVA model you ran (based on the design above), what was your response variable, what were your explanatory variables and how were the explanatory variables treated (random or fixed). Provide your alpha level. Explain which function from which package you used to analyze this data. Explain how you checked linear model assumptions and whether or not they were met. Overall, make sure you explain in sufficient detail that, if given your data, a knowledgeable person would be able to reproduce your analysis exactly.  
@@ -52,7 +74,9 @@ Make sure to run a model that reflects your study design. Even if your study des
 
 Before each chunk, describe the steps being performed in that chunk. For example, "Here I will load the data".  
 
-If a chunk produces output, like printing a data frame, statistical summary, a plot, ANOVA table, etc., make sure to write text interpreting what you see and how you can/will use that information to move forward to the next steps in the workflow.  
+If a chunk produces output, like printing a data frame, statistical summary, a plot, ANOVA table, etc., make sure to write text interpreting what you see and how you can/will use that information to move forward to the next steps in the workflow.
+
+# Loading packages 
 
 ```{r setup}
 # Loading packages
@@ -83,7 +107,7 @@ glimpse(rcbd_gs)
 ```
 
 # c) Wrangling
-```{r rcbd_gsw}
+```{r Mod1}
 # Model 1
 rcbd_gsw <- rcbd_gs %>%
   clean_names() %>% 
@@ -94,12 +118,14 @@ rcbd_gsw <- rcbd_gs %>%
          ecotype = as.factor(ecotype)
          ) 
 rcbd_gsw
+```
 
+```{r Mod 2}
 ## Model 2
 rcbd_gsw1 <- rcbd_gs %>% 
 clean_names() %>% 
   mutate(e = paste0(year, "+", location)) %>% 
-  mutate(g = paste0(hsf)) %>% 
+  mutate(g = paste0(accn)) %>% 
   mutate(e = as.factor(e),
          rep = as.factor(rep),
          g = as.factor(g),
@@ -110,6 +136,8 @@ clean_names() %>%
 rcbd_gsw1
 
 ```
+
+
 ```{r grouping}
 rcbd_gsw %>%
   group_by(year, location, rep, hsf, yield) %>%
@@ -220,15 +248,341 @@ mixed_model1 <- lmer(yield ~ year+
                        location+
                        rep +
                        year*location +
-                       year*rep+
-                       year*location*rep+
-                       (1|hsf),
+                       (1|hsf) + (1|hsf:year:location),
                      data = rcbd_gsw
                      )
 mixed_model1
 summary(mixed_model1)
 ```
 
+
+```{r model 2}
+#changing to sum-to-zero contrast
+options(contrasts = c("contr.sum", "contr.poly"))
+
+# model fitting 1 - fit a mixed-effects model with interaction
+library(lme4)
+
+mixed_model2 <- lmer(yield ~ year+
+                       location+
+                       rep +
+                       year*location +
+                       (1|g) + (1|g:e),
+                     data = rcbd_gsw1
+                     )
+mixed_model2
+summary(mixed_model2)
+
+```
+From the above two models, we will use variance components from 'random effects' table and use them for the computation of heritability which is given in the next chunks. For variance components we can also use VarCorr function from lme4 package to extract std. deviations and square them for computing variances. 
+
+```{r variance components for model 1}
+VarComp1 = VarCorr(mixed_model1)
+
+VarComp1
+
+```
+
+```{r variance components for model 2}
+
+VarComp2 = VarCorr(mixed_model2)
+
+VarComp2
+
+```
+
+```{r Haritability for VarComp1}
+
+# Heritability formula ---> H2 = Vg / Vg + Vge/e + Verror/rep*e
+# e = locations = 2
+# rep = replications = 2
+# Vg = genotypic variance 
+# Vge = genotype by environment variance 
+# Verror = error variance 
+
+
+# Groups            Name        Std.Dev.
+# hsf:year:location (Intercept) 174.90  
+# hsf               (Intercept) 154.32  
+# Residual                      953.91 
+
+# variance is the squared std. deviations
+
+# genotype by environment 
+Vge = (174.90)^2
+
+Vge
+
+Venv = Vge/2
+
+Venv
+
+# genotypic varanice 
+Vg = (154.32)^2
+
+Vg
+
+# error varanice 
+Ve = (953.91)^2
+
+Verror = Ve/4
+
+Verror
+
+Vp = Vg + Venv + Verror
+
+Vp
+
+H2 = Vg / Vp
+
+H2
+
+```
+Hertability is too low (H2 = 0.08). 
+
+```{r Haritability for VarComp2}
+
+# Heritability formula ---> H2 = Vg / Vg + Vge/e + Verror/rep*e
+# e = locations = 2
+# rep = replications = 2
+# Vg = genotypic variance 
+# Vge = genotype by environment variance 
+# Verror = error variance 
+
+
+# Groups   Name        Std.Dev.
+# g:e      (Intercept) 298.87  
+# g        (Intercept) 270.76  
+# Residual             895.38 
+# variance is the squared std. deviations
+
+# genotype by environment 
+Vge = (298.87)^2
+
+Vge
+
+Venv = Vge/2
+
+Venv
+
+# genotypic varanice 
+Vg = (270.76)^2
+
+Vg
+
+# error varanice 
+Ve = (895.38)^2
+
+Verror = Ve/4
+
+Verror
+
+Vp = Vg + Venv + Verror
+
+Vp
+
+H2 = Vg / Vp
+
+H2
+
+```
+Heritability is high (0.23) using model 2, so we will prefer this random effects model where accessions and genotype by environment interaction as random factors gives higher heritabiity for biomass yield in the progeny.
+
+
+# f) ANOVA table
+
+```{r ANOVA 1}
+Anova(mixed_model1 , type=3)
+```
+
+```{r ANOVA 2}
+Anova(mixed_model2 , type=3)
+```
+Out of the two ANOVA models, we will prefer model 1 using hsf as random effects parameter which gives the significant effect of years and locations on the overall biomass yield.  
+
+
+# g) Linear model assumptions
+
+## Extracting residuals
+
+
+```{r rcbd_mix_resid1}
+#install.packages("broom.mixed")
+library(broom.mixed)
+rcbd_mix_resid1 <- augment(mixed_model1) %>%
+  mutate(.studresid=rstudent(mixed_model1))
+
+rcbd_mix_resid1
+```
+
+# Model Assumptions 
+
+-   Independence (no pattern)\
+-   Variance homogeneity (homoscedasticity)\
+-   Normality\
+-   Outlier detection (\< -3 or \> 3)
+
+### Random effects are iid \~ N(0,var_a)
+
+```{r randeff_rep1}
+randeff_rep1 = ranef(mixed_model1)$hsf
+
+randeff_rep1
+
+randeff_rep1 %>%
+  as.data.frame()
+
+write.table(randeff_rep1, "r", sep="\t", row.names=F)
+
+
+
+```
+
+Reason for computing intercept values is that in plant breeding, the random effect prediction models are used to extract intercept values that are used as best linear unbiased prediction (BLUP) values to which intercept value from the statistical model is added and all the resulting values are sorted from largest to smallest and the top 10% or 20% are selected as the best performers in terms of high predicted yields (a sample of BLUPs table is attached in the data folder highlighting top 20 best performing hsf).
+
+```{r QQ plot for random effects 1}
+ggplot(randeff_rep1, aes(sample=`(Intercept)`))+
+  stat_qq(  shape = 21,
+            fill = "purple", 
+            size = 3,
+            alpha = .8
+  )+
+  stat_qq_line()+
+  labs(x = "Theoretical quantile",
+       y = "Sample quantile")+
+  theme_bw()
+```
+Looks good. 
+
+```{r mix_resid1}
+ggplot(rcbd_mix_resid1, aes(sample=.studresid))+
+  stat_qq(  shape = 21,
+            fill = "purple", 
+            size = 3,
+            alpha = .8
+  )+
+  stat_qq_line()+
+  labs(x = "Theoretical quantile",
+       y = "Sample quantile")+
+  theme_bw()
+```
+Looks good. 
+
+
+### Within-group errors are iid \~ N(0, var_e)
+
+```{r mix_resid-1}
+ggplot(rcbd_mix_resid1, aes(x=.fitted, y=.studresid))+
+  geom_hline(yintercept = 0, color="red")+
+  geom_point(shape = 21,
+             fill = "purple", 
+             size = 3,
+             alpha = .8)+
+  geom_smooth() +
+  geom_hline(yintercept = c(-8, 8), color = "red")+
+  theme_bw()
+```
+No obvious pattern observed. 
+
+
+```{r mix_resid_1}
+#| message: false
+#| warning: false
+
+ggplot(rcbd_mix_resid1, aes(x=.studresid))+
+  geom_density(color = "black",
+               fill = "purple",
+               alpha = .7)+
+  scale_x_continuous(breaks = c(-3,0,3), limits = c(-3,3))+
+  theme_bw()
+
+```
+
+Residuals seem normal.
+
+# h) Model means
+
+Extracting the model means.
+
+```{r interaction means-1}
+library(emmeans)
+
+emm_options(pbkrtest.limit = 6356)
+
+LS_means <- emmeans(mixed_model1, ~year + location + rep +  
+    year*location)
+
+LS_means
+```
+
+# i) Pairwise comparisons
+
+```{r interaction means1}
+library(multcompView)
+library(multcomp)
+
+meansComb1<- cld(LS_means, 
+                   reversed=T, 
+                   adjust="none",
+               Letters=letters)
+meansComb1
+
+
+```
+
+
+```{r selected}
+
+selected = meansComb1 %>%
+  as.data.frame() %>%
+  mutate(letter = trimws(.group)) 
+  
+
+selected
+
+```
+
+# g) Final plot
+
+```{r rcbd final plot}
+#| warning: false
+#| error: false
+
+ggplot(mapping = aes(fill = "location")) +
+  # Raw data and boxplots  
+  geom_boxplot(data = rcbd_gsw,
+               aes(x = location,
+                   y = yield),
+               alpha = .7) +
+  geom_jitter(data = selected,
+               aes(x = location, 
+                   y = emmean),
+              shape = 20,
+              size = 3,
+              alpha = .7) +
+  geom_label(data = selected,
+             aes(x = location,
+                 y = emmean, 
+                 label = letter), fill = "green") +
+  labs(data = selected,
+       x = "Location",
+       y = "emmean") +
+  scale_fill_viridis_d() +
+  theme(legend.position = "none",
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()
+        )
+selected
+```
+
+Final model shows that the better performance was at the Tifton regardless of the ecotype. The number of coastal and upland ecoytpes was less in comparison to lowlands. Letters a and b represent higher means for Tifton and Athens for the year 2023 where In the year 2023 the hgihest mean yield prediction for Tifton is higher than 2500 grams and for Athens is above 2000 grams. Where the letters, c and d represent hgier mean yields in Tifton and Athens for the year 2022. The hgihest mean yield prediction for Athens was less than 1000 grams while for Tifton was more than 1300 grams. The overall assumption and conclusion is that the ecoptypes highly adapted to the Southeastern states of US gives significant yield variation across years and locations with Tifton remained on the top in terms of higher predicted yield. 
+
+```{r save plot}
+ggsave("../Output//ggplot_GS.png",
+       width = 8,
+       height = 5)
+
+```
 
 
 # Team work in GitHub  
@@ -262,20 +616,3 @@ Rename this file to `LASTNAME1-LASTNAME2_midtermproject.html`.
 For ex., `Bastos-Mendes_midtermproject.html`.
 
 Send the html file to my email (lmbastos@uga.edu) by **April 11th** 11:59 pm.  
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
