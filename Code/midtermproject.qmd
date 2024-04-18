@@ -76,6 +76,10 @@ Before each chunk, describe the steps being performed in that chunk. For example
 
 If a chunk produces output, like printing a data frame, statistical summary, a plot, ANOVA table, etc., make sure to write text interpreting what you see and how you can/will use that information to move forward to the next steps in the workflow.
 
+```{r}
+knitr::opts_chunk$set(warning = FALSE, message=FALSE)
+```
+
 # Loading packages 
 
 ```{r setup}
@@ -94,7 +98,7 @@ library(metan)
 
 ```{r data import}
 rcbd_gs <- read_csv("../Data/IHF_TIFT_Combined_2022-23.csv")
-rcbd_gs
+head(rcbd_gs, 5)
 ```
 
 # b) Exploratory data analysis (EDA)
@@ -117,7 +121,7 @@ rcbd_gsw <- rcbd_gs %>%
          hsf = as.factor(hsf),
          ecotype = as.factor(ecotype)
          ) 
-rcbd_gsw
+head(rcbd_gsw, 5)
 ```
 
 ```{r Mod 2}
@@ -133,7 +137,7 @@ clean_names() %>%
   arrange(yield) %>% 
   group_by(yield)
 
-rcbd_gsw1
+head(rcbd_gsw1, 5)
 
 ```
 
@@ -141,7 +145,8 @@ rcbd_gsw1
 ```{r grouping}
 rcbd_gsw %>%
   group_by(year, location, rep, hsf, yield) %>%
-  tally()
+  tally() %>% 
+head()
 ```
 
 ```{r rcbd_gsw}
@@ -412,7 +417,7 @@ library(broom.mixed)
 rcbd_mix_resid1 <- augment(mixed_model1) %>%
   mutate(.studresid=rstudent(mixed_model1))
 
-rcbd_mix_resid1
+head(rcbd_mix_resid1,5)
 ```
 
 # Model Assumptions 
@@ -427,10 +432,11 @@ rcbd_mix_resid1
 ```{r randeff_rep1}
 randeff_rep1 = ranef(mixed_model1)$hsf
 
-randeff_rep1
+head(randeff_rep1,5)
 
 randeff_rep1 %>%
-  as.data.frame()
+  as.data.frame() %>% 
+  head(5)
 
 write.table(randeff_rep1, "r", sep="\t", row.names=F)
 
@@ -512,7 +518,7 @@ emm_options(pbkrtest.limit = 6356)
 LS_means <- emmeans(mixed_model1, ~year + location + rep +  
     year*location)
 
-LS_means
+head(LS_means, 5)
 ```
 
 # i) Pairwise comparisons
@@ -525,7 +531,7 @@ meansComb1<- cld(LS_means,
                    reversed=T, 
                    adjust="none",
                Letters=letters)
-meansComb1
+head(meansComb1,5)
 
 
 ```
@@ -538,7 +544,7 @@ selected = meansComb1 %>%
   mutate(letter = trimws(.group)) 
   
 
-selected
+head(selected,5)
 
 ```
 
